@@ -1,57 +1,79 @@
+
 # CarePath AI
 
-**A patient-first doctor visit companion built with React, JavaScript, and FastAPI.**
+**A doctor visit companion that helps patients prepare, stay organized, and manage their care after an appointment.**
 
-CarePath AI helps patients organize information before an appointment, capture clinician-provided notes during a visit, and manage their follow-up plan afterward. I built this project to explore how AI-assisted workflows and thoughtful product design can make healthcare appointments easier to navigate.
+[**Live Demo**](https://anain0404.github.io/carepath-ai/) | [**Portfolio**](https://anain0404.github.io/anvesha-portfolio/)
 
-## Live demo
+## Overview
 
-[Try CarePath AI](https://anain0404.github.io/carepath-ai/)
+A doctor's appointment doesn't start when you enter the clinic or end when you leave. Patients often need to organize their concerns beforehand, remember what their clinician said, understand their prescriptions, and keep track of follow-up tasks.
 
-The public demo runs in the browser and does not send requests to an AI model. A separate local FastAPI backend enables optional model-generated intake questions. The demo includes fictional sample information.
+I built **CarePath AI** to bring these steps into one application. Instead of focusing only on a healthcare chatbot, the project uses a connected before, during, and after appointment workflow to help patients manage information throughout their visit.
+
+The application combines an interactive React workspace, medication and follow-up tracking, document handling, and an optional AI-powered intake assistant.
 
 ## Features
 
-### Before the appointment
+### Before the Visit: Prepare with Confidence
 
-- Create and review appointments with dates, clinicians, and locations
-- Organize symptoms, concerns, and timelines
-- Add questions and mark them as discussed during the visit
-- Use an adaptive, rule-based conversation to explore what to ask
-- Optionally connect the local AI backend for generated follow-up questions
-- Import TXT notes, with PDF text extraction available through the backend
+- Create appointments with dates, clinicians, and locations.
+- Organize symptoms, concerns, and timelines.
+- Prepare questions for the clinician.
+- Use an adaptive, rule-based conversation to identify useful follow-up questions.
+- Import text notes and optionally extract information from PDFs using the backend.
+- Enable the local AI backend for contextual, model-generated intake questions.
 
-### During the appointment
+### During the Visit: Capture What Matters
 
-- Capture key points from the conversation
-- Enter instructions directly from the clinician
-- Track questions that were answered
-- Record the follow-up plan and who entered the notes
-- Download a visit summary for review or sharing
+- Record key discussion points and clinician-provided instructions.
+- Track which questions were answered.
+- Document follow-up plans and who entered the notes.
+- Generate and download a visit summary.
 
-### After the appointment
+### After the Visit: Stay on Track
 
-- Create and complete follow-up tasks
-- Maintain a list of medications and recorded prescription instructions
-- Set daily reminder times based on an existing prescription
-- Mark scheduled medications as taken or skipped
-- Use browser notifications while the application is open
-- Export 30 days of medication reminders as an `.ics` calendar file
-- Review visits in a timeline and export workspace data
+- Create and complete follow-up tasks.
+- Organize medications and prescription instructions entered by the user.
+- Schedule daily medication reminders.
+- Mark medications as taken or skipped.
+- Receive browser notifications while the application is open.
+- Export 30 days of reminders to a calendar using `.ics` files.
+- Review previous visits through a timeline.
+- Export workspace information as JSON.
 
-## Technology
+## Live Demo
 
-| Technology | Purpose |
+**[Try CarePath AI](https://anain0404.github.io/carepath-ai/)**
+
+The deployed version is a browser-based demonstration. Select **Explore fictional example** to see a sample appointment, medication schedule, and follow-up plan.
+
+The public demo uses rule-based conversational follow-ups and does not connect to an AI model. Contextual AI-generated questions are available through the optional local FastAPI backend.
+
+## Tech Stack
+
+| Technology | How It's Used |
 | --- | --- |
-| React | Multi-stage patient workspace and interactive components |
-| JavaScript | Visit, medication, reminder, and follow-up logic |
-| Vite | Local development and production builds |
-| CSS | Responsive interface |
-| FastAPI | Optional backend for AI intake and PDF extraction |
-| OpenAI API | Optional contextual follow-up questions in local AI mode |
-| MedlinePlus | Links to public patient health resources |
+| React | Interactive patient workspace and visit management |
+| JavaScript | Appointment, medication, reminder, and follow-up logic |
+| Vite | Frontend development and production builds |
+| CSS | Responsive interface and component styling |
+| Python & FastAPI | Optional AI backend and PDF text extraction |
+| OpenAI API | Contextual follow-up questions in local AI mode |
+| MedlinePlus | Links to trusted patient health resources |
+| GitHub Actions | Automated frontend deployment to GitHub Pages |
 
-## Getting started
+## How It Works
+
+CarePath organizes a doctor's appointment into three connected stages:
+
+**Prepare → Document → Follow Up**
+
+Users start by organizing symptoms, questions, and relevant information. During the appointment, they can record clinician-provided notes and instructions. Afterward, they can turn those instructions into follow-up tasks, organize their prescribed medications, and schedule reminders.
+
+The goal is to preserve useful information across the appointment rather than treating every interaction as a separate chatbot conversation.
+
+## Getting Started
 
 Requires Node.js and npm.
 
@@ -60,25 +82,23 @@ npm install
 npm run dev
 ```
 
-Open the local URL printed by Vite, normally `http://localhost:5173/carepath-ai/`.
+Open the local development URL printed by Vite, normally `http://localhost:5173/carepath-ai/`.
 
-Use **Explore fictional example** to load a sample visit, medication entry, and follow-up checklist.
-
-Run the tests:
+Run tests:
 
 ```bash
 npm test
 ```
 
-Build the frontend:
+Build for production:
 
 ```bash
 npm run build
 ```
 
-### Optional AI backend
+### Optional AI Backend
 
-The browser demo works without a backend. To enable contextual model-generated intake follow-ups, start the Python API in another terminal.
+The frontend works independently. To enable contextual AI-generated intake questions, configure the Python backend.
 
 ```bash
 python3 -m venv .venv
@@ -86,33 +106,49 @@ source .venv/bin/activate
 pip install -r backend/requirements.txt
 ```
 
-Create a `.env` file in the root directory with an API key:
+Create a `.env` file in the project root:
 
 ```text
 OPENAI_API_KEY=your_key_here
 OPENAI_MODEL=gpt-4.1-mini
 ```
 
-Then run:
+Start the backend:
 
 ```bash
 cd backend
 uvicorn main:app --reload --port 8000
 ```
 
-In CarePath, open **Before the visit** and turn on **Use local AI backend**. The backend should be running at `http://127.0.0.1:8000`.
+In the application, open **Before the visit** and enable **Use local AI backend**.
 
-Never put API keys in the frontend or commit `.env` to GitHub.
+The API runs at `http://127.0.0.1:8000`.
 
-## Reminders and data storage
+Never commit API keys or `.env` files to GitHub.
 
-In-browser medication alerts are **not background notifications**. They are only checked while the application is open, and browser notification permissions must be enabled. Calendar export generates recurring reminders for up to 30 days. The calendar application determines whether those reminders trigger on a device.
+## Privacy, Safety, and Limitations
 
-Information is stored in React state for the current session by default. Users can optionally enable unencrypted local browser storage or export their workspace as JSON. The public demo does not include authentication, encrypted medical records, or secure patient-provider messaging. Use fictional information when testing or demonstrating it.
+CarePath AI is an educational prototype, not a medical device or a replacement for professional medical advice.
 
-Medication entries and clinician notes are user-entered and are not clinically verified. CarePath does not recommend doses, interpret test results, check drug interactions, or tell users how to handle missed doses.
+- The public demo uses fictional sample information.
+- The application does not diagnose conditions, prescribe medication, recommend dosages, or verify clinician instructions.
+- Medication information is entered by the user and is not clinically validated.
+- Browser notifications are checked only while the application is open. Calendar reminders depend on the user's calendar application.
+- Information is held in session state by default. Optional local browser storage is unencrypted.
+- The public demo does not include authenticated patient accounts, encrypted medical record storage, or secure clinician messaging.
 
-## Project structure
+Do not use real patient information when testing or demonstrating the application.
+
+## Future Improvements
+
+- Secure patient accounts and authenticated clinician roles.
+- Encrypted storage and user-controlled medical record sharing.
+- Reliable background medication reminders.
+- Synthetic-data FHIR integration for healthcare interoperability.
+- AI-generated, source-backed explanations of clinician-provided instructions.
+- Evaluation of document extraction accuracy, retrieval quality, and AI-generated follow-up questions.
+
+## Project Structure
 
 ```text
 carepath-ai/
@@ -136,21 +172,10 @@ carepath-ai/
 └── README.md
 ```
 
-## Future improvements
-
-- Secure patient accounts with access controls
-- Doctor and patient roles with authenticated note approval
-- Encrypted document storage and user-controlled sharing
-- Reliable scheduled push notifications through a deployed service
-- FHIR integration in a synthetic-data sandbox
-- Evaluation of extraction accuracy, source citations, and follow-up quality
-
-## About this project
-
-I wanted to build more than a healthcare chatbot. A doctor's visit involves preparation, conversations, instructions, and follow-up tasks that often end up scattered across notes and messages. CarePath brings those steps into a single workflow and gives users practical outputs they can review and take with them.
-
 ## Author
 
 **Anvesha Nain**
+
+Computer Science, Purdue University
 
 [Portfolio](https://anain0404.github.io/anvesha-portfolio/) | [GitHub](https://github.com/anain0404) | [LinkedIn](https://www.linkedin.com/in/anvesha-nain-a14033223/)
